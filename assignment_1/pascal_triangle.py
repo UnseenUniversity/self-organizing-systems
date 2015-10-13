@@ -18,15 +18,10 @@ class PascalEnv(Environment):
 
     def print_results(self):
 
-        if self.kill_switch:
-            print "Mission success!"
-
         for row in xrange(len(self.matrix)):
             for col in xrange(len(self.matrix[row])):
                 print self.matrix[row][col],
             print
-
-        map(lambda agent: agent.print_turn_count(), self.agents)
 
     def init_agent(self, id):
         row = randint(2, self.size - 1)

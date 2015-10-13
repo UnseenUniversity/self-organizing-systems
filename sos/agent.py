@@ -19,11 +19,17 @@ class Agent(threading.Thread, object):
     def act(self):
         pass
 
+    @staticmethod
+    def _yield():
+        time.sleep(0.01)
+
     def run(self):
 
         while not self.env.kill_switch:
             self.act()
-
             self.turns += 1
-            if self.turns == self.max_turns:
+            if self.max_turns != -1 and\
+               self.turns == self.max_turns:
                 break
+
+            self._yield()

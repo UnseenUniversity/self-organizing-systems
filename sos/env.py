@@ -25,7 +25,13 @@ class Environment(object):
 
     def end(self):
         map(lambda agent: agent.join(), self.agents)
+
+        if self.kill_switch:
+            print "Mission success!"
+
         self.print_results()
+        map(lambda agent: agent.print_turn_count(), self.agents)
+
 
     def print_results(self):
         print "Mission success!"
