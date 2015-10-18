@@ -19,15 +19,47 @@ class Parasite(Creature):
 
     def __init__(self, current_year, settings):
         super(Parasite, self).__init__(current_year, settings)
+        self.attempts_left = settings["attempts_left"]
 
+    @staticmethod
+    def reproduction(population):
+
+        pops = {}
+        for creature in population:
+
+            life_cycle    = creature.settings["life_cycle"]
+            attempts_left = creature.settings["attempts_left"]
+
+            if life_cycle in pops:
+                pops[life_cycle].append(creature)
+            else:
+                pops[life_cycle] = [creature]
+
+        return pops
 
 class Cricket(Creature):
 
     def __init__(self, current_year, settings):
         super(Cricket, self).__init__(current_year, settings)
 
+    @staticmethod
+    def reproduction(population):
 
-parasite_settings = {"life_cycle"                : 2,
+        pops = {}
+        for creature in population:
+
+            life_cycle = creature.settings["life_cycle"]
+
+            if life_cycle in pops:
+                pops[life_cycle].append(creature)
+            else:
+                pops[life_cycle] = [creature]
+
+        return pops
+
+
+parasite_settings = {"attempts_left": 10,
+                     "life_cycle"                : 2,
                      "increase_in_pop"           : 5,
                      "chance_increase_life_cycle": 5,
                      "chance_keep_life_cycle"    : 5,
@@ -36,7 +68,7 @@ parasite_population = 10
 p = Parasite(0, parasite_settings)
 parasite_type = p.__class__
 
-cricket_settings = {"life_cycle"                 : 5,
+cricket_settings = { "life_cycle"                 : 5,
                      "increase_in_pop"           : 5,
                      "chance_increase_life_cycle": 5,
                      "chance_keep_life_cycle"    : 5,
@@ -84,18 +116,7 @@ while len(population) > 0:
     def percent(pop, perc):
         return int(perc * pop / 100)
 
-    def reproduction(population):
 
-        pops = {}
-        for creature in population:
-
-            life_cycle = creature.settings["life_cycle"]
-
-            if life_cycle in pops:
-                pops[life_cycle].append(creature)
-            else:
-                pops[life_cycle] = [creature]
-        return pops
 
     if len(parasites) == 0:
 
