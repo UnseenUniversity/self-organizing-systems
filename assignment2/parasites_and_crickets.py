@@ -99,16 +99,41 @@ def test(cricket_settings,
 
             print "No crickets this cycle!"
 
+            population = []
+
             for life_cycle, pop in parasites.items():
+
                 print "Parasite population", (life_cycle, len(pop))
+
+                new_parasites = []
+                count["parasite"] -= len(pop)
 
                 for parasite in pop:
                     if parasite.attempts_left == 0:
-                        count["parasite"] -= 1
+                        pass
+                        # count["parasite"] -= 1
                     else:
                         parasite.attempts_left -= 1
-                        parasite.next_cycle     = year + parasite.life_cycle
-                        heappush(env, parasite)
+                        # parasite.next_cycle = year + parasite.life_cycle
+                        new_parasites.append(parasite)
+                        # heappush(env, parasite)
+
+                if len(new_parasites) == 0:
+                    continue
+
+                new_parasites = Parasite.reproduce(year, life_cycle, len(new_parasites), mutations=True)
+                population += new_parasites
+
+
+                # print len(new_parasites)
+                # print len(pop)
+                for idx in xrange(min(len(pop), len(new_parasites))):
+                    new_parasites[idx].attempts_left = pop[idx].attempts_left
+
+                count["parasite"] += len(new_parasites)
+
+            for creature in population:
+                heappush(env, creature)
 
         else:
 
@@ -151,24 +176,26 @@ def test(cricket_settings,
         print "==============================================="
         print
 
-    print
-    print "Survivors", count, "!"
+        print
+        print "Survivors", count, "!"
 
-    result_parasites = {}
-    result_crickets  = {}
+        result_parasites = {}
+        result_crickets  = {}
 
-    for creature in env:
-        life_cycle = creature.life_cycle
-        if creature.type == "parasite":
-            attach_creature(result_parasites, life_cycle, creature)
-        else:
-            attach_creature(result_crickets, life_cycle, creature)
+        for creature in env:
+            life_cycle = creature.life_cycle
+            if creature.type == "parasite":
+                attach_creature(result_parasites, life_cycle, creature)
+            else:
+                attach_creature(result_crickets, life_cycle, creature)
 
-    for cycle, pop in result_parasites.items():
-        print len(pop), " parasites with cycle ", cycle
+        for cycle, pop in result_parasites.items():
+            print len(pop), " parasites with cycle ", cycle
 
-    for cycle, pop in result_crickets.items():
-        print len(pop), " crickets with cycle ", cycle
+        for cycle, pop in result_crickets.items():
+            print len(pop), " crickets with cycle ", cycle
+
+        print "==============================================="
 
 
 def test_0():
@@ -183,25 +210,25 @@ def test_0():
                         "life_cycle": 7,
                         "pop_increase": 50,
                         "repro_distro": [(33, +1), (33, +0), (33, -1)],
-                        "baby_massacre": 25}
+                        "baby_massacre": 50}
 
-    test(cricket_settings, parasite_settings, max_year=1024)
+    test(cricket_settings, parasite_settings, max_year=10024)
 
 def test_1():
 
-    parasite_settings = {"initial_count": 10,
-                         "life_cycle": 10,
+    parasite_settings = {"initial_count": 40,
+                         "life_cycle": 2,
                          "pop_increase": 5,
                          "repro_distro": [(33, +1), (33, +0), (33, -1)],
                          "karma_cycles": 2}
 
-    cricket_settings = {"initial_count": 100,
-                        "life_cycle": 10,
+    cricket_settings = {"initial_count": 10,
+                        "life_cycle": 7,
                         "pop_increase": 10,
                         "repro_distro": [(33, +1), (33, +0), (33, -1)],
-                        "baby_massacre": 75}
+                        "baby_massacre": 20}
 
-    test(cricket_settings, parasite_settings, max_year=1024)
+    test(cricket_settings, parasite_settings, max_year=100)
 
 # test_0()
 test_1()
