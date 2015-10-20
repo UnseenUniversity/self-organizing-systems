@@ -4,207 +4,341 @@ __author__ = 'alexei'
 # nc parasite life cycles
 from heapq import *
 
-
-class Creature(object):
-
-    def __init__(self, current_year, life_cycle):
-        self.life_cycle = life_cycle
-        self.next_cycle = current_year + life_cycle
-
-    def __cmp__(self, other):
-        return self.next_cycle > other.next_cycle
+from creature import Creature, Parasite, Cricket
 
 
-class Parasite(Creature):
+def spawn(cls, settings, year=0):
 
-    def __init__(self, current_year, settings):
-        super(Parasite, self).__init__(current_year, settings)
-        self.attempts_left = settings["attempts_left"]
+    cls.settings = settings
+    count        = settings["initial_count"]
+    life_cycle   = settings["life_cycle"]
+    return [cls(year, life_cycle) for _ in xrange(count)]
 
-    @staticmethod
-    def reproduction(population):
 
-        pops = {}
-        for creature in population:
+def test(cricket_settings,
+         parasite_settings,
+         max_year=42):
 
-            life_cycle    = creature.settings["life_cycle"]
-            attempts_left = creature.settings["attempts_left"]
+    # parasite_count        = parasite_settings["initial_count"]
+    # parasite_life_cycle   = parasite_settings["life_cycle"]
+    # Parasite.repro_distro = parasite_settings["repro_distro"]
+    # Parasite.karma_cycles = parasite_settings["karma_cycles"]
+    # Parasite.pop_increase = parasite_settings["pop_increase"]
+    #
+    # cricket_count        = cricket_settings["initial_count"]
+    # cricket_life_cycle   = cricket_settings["life_cycle"]
+    # Cricket.repro_distro = cricket_settings["repro_distro"]
+    # Cricket.karma_cycles = cricket_settings["karma_cycles"]
+    # Cricket.pop_increase = cricket_settings["pop_increase"]
 
-            if life_cycle in pops:
-                pops[life_cycle].append(creature)
+    tmp = spawn(Cricket, cricket_settings) + \
+          spawn(Parasite, parasite_settings)
+
+    env = []
+
+    for elem in tmp:
+        heappush(env, elem)
+
+    count = {"parasite": parasite_settings["initial_count"],
+             "cricket": cricket_settings["initial_count"]}
+    year = 0
+
+    def attach_creature(kind, life_cycle, creature):
+            if life_cycle in kind:
+                kind[life_cycle].append(creature)
             else:
-                pops[life_cycle] = [creature]
+                kind[life_cycle] = [creature]
 
-        return pops
+    while count["parasite"] > 0 and abs(count["parasite"] - count["cricket"]) < 100000 and \
+          count["cricket"] > 0 and \
+          year < max_year:
 
-class Cricket(Creature):
+        creatures = []
+        year = env[0].next_cycle
 
-    def __init__(self, current_year, settings):
-        super(Cricket, self).__init__(current_year, settings)
+        print "Year: ", year, " | Parasites: ", count["parasite"], " | Crickets: ", count["cricket"]
 
-    @staticmethod
-    def reproduction(population):
+        while len(env) > 0 and env[0].next_cycle == year:
+            creature = heappop(env)
+            creatures.append(creature)
 
-        pops = {}
-        for creature in population:
+        parasites = {}
+        crickets  = {}
 
-            life_cycle = creature.settings["life_cycle"]
+        crickets_exist  = False
+        parasites_exist = False
 
-            if life_cycle in pops:
-                pops[life_cycle].append(creature)
+        for creature in creatures:
+            life_cycle = creature.life_cycle
+            if creature.type == "parasite":
+                attach_creature(parasites, life_cycle, creature)
+                parasites_exist = True
             else:
-                pops[life_cycle] = [creature]
+                attach_creature(crickets, life_cycle, creature)
+                crickets_exist = True
 
-        return pops
+        if not parasites_exist:
 
+            print "No parasites this cycle!"
 
-parasite_settings = {"attempts_left": 10,
-                     "life_cycle"                : 2,
-                     "increase_in_pop"           : 5,
-                     "chance_increase_life_cycle": 5,
-                     "chance_keep_life_cycle"    : 5,
-                     "karma_cycles"              : 10}
-parasite_population = 10
-p = Parasite(0, parasite_settings)
-parasite_type = p.__class__
+            population = []
+            for life_cycle, pop in crickets.items():
+                print "Cricket population", (life_cycle, len(pop))
 
-cricket_settings = { "life_cycle"                 : 5,
-                     "increase_in_pop"           : 5,
-                     "chance_increase_life_cycle": 5,
-                     "chance_keep_life_cycle"    : 5,
-                     "eggs_destroyed"            : 10}
-cricket_population = 10
-p = Cricket(0, cricket_settings)
-cricket_type = p.__class__
+                count["cricket"] -= len(pop)
 
-current_year = 0
+                new_crickets = Cricket.reproduce(year, life_cycle, len(pop), mutations=False)
+                population += new_crickets
 
-population = [Parasite(current_year, parasite_settings)
-              for _ in xrange(parasite_population)] + \
-             [Cricket(current_year, cricket_settings)
-              for _ in xrange(cricket_population)]
+                count["cricket"] += len(new_crickets)
 
-population = []
+            for creature in population:
+                heappush(env, creature)
 
-for _ in xrange(parasite_population):
-    heappush(population, Parasite(current_year, parasite_settings["life_cycle"]))
+        elif not crickets_exist:
 
-for _ in xrange(cricket_population):
-    heappush(population, Cricket(current_year, cricket_settings["life_cycle"]))
+            print "No crickets this cycle!"
 
-while len(population) > 0:
+            for life_cycle, pop in parasites.items():
+                print "Parasite population", (life_cycle, len(pop))
 
-    creatures    = [heappop(population)]
-    current_year = creatures[0].next_cycle
+                for parasite in pop:
+                    if parasite.attempts_left == 0:
+                        count["parasite"] -= 1
+                    else:
+                        parasite.attempts_left -= 1
+                        parasite.next_cycle     = year + parasite.life_cycle
+                        heappush(env, parasite)
 
-    print "Year ", current_year, "!"
+        else:
 
-    while len(population) > 0:
+            print "Crickets and parasites meet!"
 
-        creature = heappop(population)
-        if creature.next_cycle != current_year:
-            heappush(population, creature)
-            break
-        creatures.append(creature)
+            population = []
+            for life_cycle, pop in crickets.items():
+                print "Cricket population", (life_cycle, len(pop))
 
-    crickets  = [creature for creature in creatures if creature.__class__ == cricket_type]
-    parasites = [creature for creature in creatures if creature.__class__ == parasite_type]
+                count["cricket"] -= len(pop)
 
-    def percent_increase(pop, perc):
-        return pop + percent(perc, pop)
+                new_crickets = Cricket.reproduce(year, life_cycle, len(pop), mutations=True)
+                population += new_crickets
 
-    def percent(pop, perc):
-        return int(perc * pop / 100)
+                count["cricket"] += len(new_crickets)
 
 
+            # kill the babies!
+            perc = cricket_settings["baby_massacre"]
+            new_count = min(max(1, int(len(population) * perc / 100)), len(population))
+            print count["cricket"], new_count, len(population)
+            count["cricket"] -= new_count
+            population = population[new_count:]
 
-    if len(parasites) == 0:
+            for life_cycle, pop in parasites.items():
+                print "Parasite population", (life_cycle, len(pop))
 
-        pops = reproduction(crickets)
-        for pop in pops:
+                count["parasite"] -= len(pop)
 
-            new_count = percent_increase(pop, cricket_settings["increase_in_pop"])
-            for _ in xrange(len(pops[pop])):
-                heappush(population, Cricket(current_year, cricket_settings))
+                new_parasites = Parasite.reproduce(year, life_cycle, len(pop), mutations=False)
+                population += new_parasites
 
-    elif len(crickets) == 0:
+                count["parasite"] += len(new_parasites)
 
-        pops = reproduction(parasites)
+            for creature in population:
+                heappush(env, creature)
 
-        for pop in pops:
-            new_count = len(parasites)
+        print "Year: ", year, " | Parasites: ", count["parasite"], " | Crickets: ", count["cricket"]
+        year += 1
+        print "==============================================="
+        print
 
-            count_1 = percent_increase(new_count, parasite_settings["chance_increase_life_cycle"])
-            life_cycle = pop + 1
+    print
+    print "Survivors", count, "!"
 
-            for _ in xrange(count_1):
-                heappush(population, Parasite(current_year, life_cycle))
+    result_parasites = {}
+    result_crickets  = {}
 
-            count_2 = percent(new_count, parasite_settings["chance_keep_life_cycle"])
-            life_cycle = pop
+    for creature in env:
+        life_cycle = creature.life_cycle
+        if creature.type == "parasite":
+            attach_creature(result_parasites, life_cycle, creature)
+        else:
+            attach_creature(result_crickets, life_cycle, creature)
 
-            for _ in xrange(count_2):
-                heappush(population, Parasite(current_year, life_cycle))
+    for cycle, pop in result_parasites.items():
+        print len(pop), " parasites with cycle ", cycle
 
-            count_3 = 100 - count_1 - count_2
-            life_cycle = pop - 1
-            if life_cycle == 0 or count_3 <= 0:
-                continue
+    for cycle, pop in result_crickets.items():
+        print len(pop), " crickets with cycle ", cycle
 
-            for _ in xrange(count_3):
-                heappush(population, Parasite(current_year, life_cycle))
 
-    else:
+def test_0():
 
-        pops = reproduction(crickets)
+    parasite_settings = {"initial_count": 50,
+                         "life_cycle": 2,
+                         "pop_increase": 50,
+                         "repro_distro": [(33, +1), (33, +0), (33, -1)],
+                         "karma_cycles": 10}
 
-        for pop in pops:
-            new_count = percent_increase(pop, cricket_settings["increase_in_pop"])
+    cricket_settings = {"initial_count": 50,
+                        "life_cycle": 7,
+                        "pop_increase": 50,
+                        "repro_distro": [(33, +1), (33, +0), (33, -1)],
+                        "baby_massacre": 25}
 
-            count_1 = percent_increase(new_count, cricket_settings["chance_increase_life_cycle"])
-            life_cycle = pop + 1
+    test(cricket_settings, parasite_settings, max_year=1024)
 
-            for _ in xrange(count_1):
-                heappush(population, Cricket(current_year, life_cycle))
+def test_1():
 
-            count_2 = percent(new_count, cricket_settings["chance_keep_life_cycle"])
-            life_cycle = pop
+    parasite_settings = {"initial_count": 10,
+                         "life_cycle": 10,
+                         "pop_increase": 5,
+                         "repro_distro": [(33, +1), (33, +0), (33, -1)],
+                         "karma_cycles": 2}
 
-            for _ in xrange(count_2):
-                heappush(population, Cricket(current_year, life_cycle))
+    cricket_settings = {"initial_count": 100,
+                        "life_cycle": 10,
+                        "pop_increase": 10,
+                        "repro_distro": [(33, +1), (33, +0), (33, -1)],
+                        "baby_massacre": 75}
 
-            count_3 = 100 - count_1 - count_2
-            life_cycle = pop - 1
-            if life_cycle == 0 or count_3 <= 0:
-                continue
+    test(cricket_settings, parasite_settings, max_year=1024)
 
-            for _ in xrange(count_3):
-                heappush(population, Cricket(current_year, life_cycle))
-
-            pops = reproduction(parasites)
-            for pop in pops:
-                new_count = percent_increase(pop, parasite_settings["increase_in_pop"])
-                for _ in xrange(len(pops[pop])):
-                    heappush(population, Parasite(current_year, parasite_settings))
+# test_0()
+test_1()
 
 
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+#
+# cricket_population = 10
+# p = Cricket(0, cricket_settings)
+# cricket_type = p.__class__
+#
+# current_year = 0
+#
+# population = [Parasite(current_year, parasite_settings)
+#               for _ in xrange(parasite_population)] + \
+#              [Cricket(current_year, cricket_settings)
+#               for _ in xrange(cricket_population)]
+#
+# population = []
+#
+# for _ in xrange(parasite_population):
+#     heappush(population, Parasite(current_year, parasite_settings["life_cycle"]))
+#
+# for _ in xrange(cricket_population):
+#     heappush(population, Cricket(current_year, cricket_settings["life_cycle"]))
+#
+# while len(population) > 0:
+#
+#     creatures    = [heappop(population)]
+#     current_year = creatures[0].next_cycle
+#
+#     print "Year ", current_year, "!"
+#
+#     while len(population) > 0:
+#
+#         creature = heappop(population)
+#         if creature.next_cycle != current_year:
+#             heappush(population, creature)
+#             break
+#         creatures.append(creature)
+#
+#     crickets  = [creature for creature in creatures if creature.__class__ == cricket_type]
+#     parasites = [creature for creature in creatures if creature.__class__ == parasite_type]
+#
+#
+#
+#
+#
+#     if len(parasites) == 0:
+#
+#         pops = reproduction(crickets)
+#         for pop in pops:
+#
+#             new_count = percent_increase(pop, cricket_settings["increase_in_pop"])
+#             for _ in xrange(len(pops[pop])):
+#                 heappush(population, Cricket(current_year, cricket_settings))
+#
+#     elif len(crickets) == 0:
+#
+#         pops = reproduction(parasites)
+#
+#         for pop in pops:
+#             new_count = len(parasites)
+#
+#             count_1 = percent_increase(new_count, parasite_settings["chance_increase_life_cycle"])
+#             life_cycle = pop + 1
+#
+#             for _ in xrange(count_1):
+#                 heappush(population, Parasite(current_year, life_cycle))
+#
+#             count_2 = percent(new_count, parasite_settings["chance_keep_life_cycle"])
+#             life_cycle = pop
+#
+#             for _ in xrange(count_2):
+#                 heappush(population, Parasite(current_year, life_cycle))
+#
+#             count_3 = 100 - count_1 - count_2
+#             life_cycle = pop - 1
+#             if life_cycle == 0 or count_3 <= 0:
+#                 continue
+#
+#             for _ in xrange(count_3):
+#                 heappush(population, Parasite(current_year, life_cycle))
+#
+#     else:
+#
+#         pops = reproduction(crickets)
+#
+#         for pop in pops:
+#             new_count = percent_increase(pop, cricket_settings["increase_in_pop"])
+#
+#             count_1 = percent_increase(new_count, cricket_settings["chance_increase_life_cycle"])
+#             life_cycle = pop + 1
+#
+#             for _ in xrange(count_1):
+#                 heappush(population, Cricket(current_year, life_cycle))
+#
+#             count_2 = percent(new_count, cricket_settings["chance_keep_life_cycle"])
+#             life_cycle = pop
+#
+#             for _ in xrange(count_2):
+#                 heappush(population, Cricket(current_year, life_cycle))
+#
+#             count_3 = 100 - count_1 - count_2
+#             life_cycle = pop - 1
+#             if life_cycle == 0 or count_3 <= 0:
+#                 continue
+#
+#             for _ in xrange(count_3):
+#                 heappush(population, Cricket(current_year, life_cycle))
+#
+#             pops = reproduction(parasites)
+#             for pop in pops:
+#                 new_count = percent_increase(pop, parasite_settings["increase_in_pop"])
+#                 for _ in xrange(len(pops[pop])):
+#                     heappush(population, Parasite(current_year, parasite_settings))
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
 
 
 
