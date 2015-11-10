@@ -3,7 +3,7 @@ __author__ = 'alexei'
 import random
 import numpy as np
 from pprint import pprint as pp
-import matplotlib.pyplot as plt
+#import matplotlib.pyplot as plt
 
 # class Edge(object):
 #
@@ -176,7 +176,7 @@ class ACOSettings():
 
     Q        = 5
     num_ants = 5
-    NCmax    = 1000
+    NCmax    = 500
 
     def __init__(self, alpha, beta, ro):
 
@@ -212,7 +212,7 @@ class Edge:
                str(self.ph) + ", h: " + str(self.h) + ")"
 
 
-def ants_tsp(graph, config, store_best_path=True):
+def ants_tsp(graph, config, store_best_path=False):
 
     num_nodes = len(graph)
 
@@ -236,6 +236,7 @@ def ants_tsp(graph, config, store_best_path=True):
         best_solution = (State.infinite, [])
     else:
         best_solution = State.infinite
+        best_iter = -1
 
     cycle = 0
     while cycle < ACOSettings.NCmax:
@@ -276,7 +277,11 @@ def ants_tsp(graph, config, store_best_path=True):
                 if lengths[idx] < best_solution[0]:
                     best_solution = (lengths[idx], ants[idx].path)
         else:
-            best_solution = min(best_solution, min(lengths))
+            temp = min(lengths)
+            if best_solution > temp:
+                best_solution = temp
+                best_iter = cycle
+            # best_solution = min(best_solution, min(lengths))
 
         for i, j in all_edges:
             edge = state[(i, j)]
@@ -303,7 +308,7 @@ def ants_tsp(graph, config, store_best_path=True):
 
         cycle += 1
 
-    return best_solution
+    return (best_solution, best_iter)
 
 
 def run_experiment(graph, config, num_attempts=10):
@@ -314,24 +319,93 @@ def run_experiment(graph, config, num_attempts=10):
 
 def run_tests(graph):
 
-    tests = [ACOSettings(1.5, 1.2, 0.8)]
-    results = map(lambda test: run_experiment(graph, test), tests)
-    return zip(results, tests)
+    tests = [ACOSettings(1.5, 1.2, 0.8),
+             ACOSettings(1, 1.2, 0.5),
+             ACOSettings(1, 2, 0.5),
+             ACOSettings(1, 1, 1),
+             ACOSettings(2, 0.4, 0.66),
+             ACOSettings(2, 0.4, 0.66),
+             ACOSettings(1, 2, 0.1),
+             ACOSettings(1, 2, 0.5),
+             ACOSettings(3, 1, 0.9),
+             ACOSettings(1, 1, 0.1)]
 
+    results = map(lambda test: run_experiment(graph, test), tests)
+    return results, tests
+
+
+# def plot(optimum, results, tests, problem_size):
+#
+#     print results
+#
+#     ind = np.arange(len(tests))
+#     width = 0.3
+#
+#     fig = plt.figure()
+#     ax = fig.add_subplot(111)
+#
+#     ax.set_ylabel('Scores')
+#     ax.set_title('Results for graph ' + str(problem_size))
+#
+#     groups = [str(test) for test in tests]
+#     ax.set_xticks(ind + width)
+#     group_names = ax.set_xticklabels(groups)
+#     plt.setp(group_names, rotation=45, fontsize=10)
+#
+#
+#     num_attempts = len(results[0])
+#     attempts = []
+#
+#     for test in xrange(len(tests)):
+#         for attempt in xrange(num_attempts):
+#             res = [result[test][attempt] for result in results]
+#
+#             rect = ax.bar(ind + test * width,
+#                           res,
+#                           width,
+#                           bottom=0)
+#
+#             print ind + test * width
+#
+#             plt.show()
+
+
+
+
+def test(graph):
+    optimum = compute_tsp_pd(graph, max_weight=10)
+
+    pp(optimum)
+
+    results, tests = run_tests(graph)
+
+    for test in xrange(len(tests)):
+        print tests[test]
+
+        best_iter = 1000
+        best_val  = State.infinite
+
+        for value, step in results[test]:
+            if value < best_val:
+                best_val  = value
+                best_iter = step
+            elif value == best_val:
+                best_iter = min(best_iter, step)
+
+        print best_val, best_iter
+        # print results[test]
+        # print
+        # print result
+        # print
+        # print str(min(result) - optimum[0])
+        print
+
+    # plot(optimum, results, tests, len(graph))
 
 def test_9():
 
-    graph   = generate_graph(num_nodes=9, density=1.0, max_weight=100)
-    # optimum = compute_tsp_pd(graph, max_weight=10)
-    # print optimum
-    aoc_experiments = run_tests(graph)
-
-
-    pp(aoc_experiments)
-
-
-    # print "Optimum solution: ", optimum
-    # pp(aoc_experiments)
+    graph   = generate_graph(num_nodes=11, density=1.0, max_weight=100)
+    test(graph)
 
 
 def main():
