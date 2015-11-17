@@ -1,0 +1,148 @@
+Function	Topology	PSO	Phi	Error	Position	Iter
+griewank	ring_topology	inertia_weight	(2.05, 2.05)	6.52624843056E-010	[-276.46017906 -276.46017906]	487
+griewank	neumann_topology	inertia_weight	(2, 1)	0.000000007	[ 69.11511876  69.11512532]	168
+griewank	ring_topology	inertia_weight	(0.01, 0.01)	1.91307574227E-008	[ 185.35379937  185.35386503]	479
+griewank	ring_topology	inertia_weight	(1, 2)	3.04517008276E-008	[ 157.07978711  157.07982518]	467
+griewank	neumann_topology	inertia_weight	(1, 2)	6.03231342655E-008	[-342.43356266  342.43394465]	160
+griewank	ring_topology	inertia_weight	(2, 1)	7.08424212625E-008	[-593.7613822   593.76094604]	443
+griewank	ring_topology	constriction_factor	(2, 1)	7.87905356514E-008	[ 47.12349845  -9.42471147]	343
+griewank	ring_topology	main	(2, 1)	1.00229839783E-006	[   9.42355306  109.95645296]	342
+griewank	full_topology	inertia_weight	(2.05, 2.05)	1.44787414702E-006	[ 493.22841054 -493.23051461]	384
+griewank	full_topology	inertia_weight	(2, 1)	2.89151402011E-006	[ 578.0554511   578.05295122]	192
+griewank	full_topology	constriction_factor	(2.05, 2.05)	4.17393016316E-006	[ 157.08114588  -43.98475847]	457
+griewank	full_topology	main	(2, 1)	4.33749358764E-006	[-565.48611303 -571.77275366]	230
+griewank	full_topology	inertia_weight	(0.01, 0.01)	4.60478812148E-006	[ -65.97632364 -235.62041191]	470
+griewank	neumann_topology	inertia_weight	(2.05, 2.05)	4.87851230857E-006	[ 496.37475841  496.37180654]	245
+griewank	neumann_topology	constriction_factor	(2, 1)	6.63868826056E-006	[-238.76468545  -12.56635472]	221
+griewank	full_topology	main	(2.05, 2.05)	7.21343893373E-006	[-147.65270712 -147.65172187]	458
+griewank	ring_topology	main	(1, 2)	8.19066908753E-006	[ 490.09096173  490.0852771 ]	470
+griewank	full_topology	main	(0.01, 0.01)	1.05718785461E-005	[ 194.77817552 -339.29656949]	17
+griewank	neumann_topology	inertia_weight	(0.01, 0.01)	1.09524330623E-005	[-153.94013802   15.70377957]	470
+griewank	neumann_topology	main	(2, 1)	1.47304576403E-005	[ 245.03916603  245.04618856]	424
+griewank	full_topology	main	(1, 2)	0.000021807	[  59.68509038 -461.81822923]	0
+griewank	full_topology	constriction_factor	(2, 1)	4.88802526594E-005	[-160.22450182   28.28366267]	277
+griewank	full_topology	constriction_factor	(1, 2)	5.07129395763E-005	[ 351.84833832  295.31051419]	268
+griewank	neumann_topology	constriction_factor	(2.05, 2.05)	5.38543526166E-005	[-157.06988107 -207.34866705]	123
+griewank	ring_topology	constriction_factor	(2.05, 2.05)	5.39464397685E-005	[ -40.84963741  304.72918668]	372
+griewank	neumann_topology	main	(0.01, 0.01)	5.7241905832E-005	[-251.32135097  -50.27429984]	6
+griewank	ring_topology	main	(2.05, 2.05)	0.0001459973	[ 103.68439425  103.68488241]	253
+griewank	neumann_topology	main	(1, 2)	0.0001568094	[-25.15020254  25.12978647]	374
+griewank	full_topology	constriction_factor	(0.01, 0.01)	0.0001618536	[-153.92029608 -574.91443373]	19
+griewank	neumann_topology	constriction_factor	(1, 2)	0.0001656466	[ 34.56084334 -91.12408258]	82
+griewank	ring_topology	constriction_factor	(1, 2)	0.0001911662	[-351.87720475 -301.59817407]	36
+griewank	ring_topology	main	(0.01, 0.01)	0.0002001865	[ 367.54633802 -273.3180238 ]	476
+griewank	neumann_topology	constriction_factor	(0.01, 0.01)	0.0002066305	[ 138.21954374 -138.24746474]	19
+griewank	neumann_topology	main	(2.05, 2.05)	0.0002949934	[-267.01553657 -109.96975916]	480
+griewank	ring_topology	constriction_factor	(0.01, 0.01)	0.000797106	[ -56.53398658 -276.42301882]	33
+griewank	full_topology	inertia_weight	(1, 2)	0.0009765947	[ 436.68176256  600.        ]	258
+						
+sphere	full_topology	inertia_weight	(0.01, 0.01)	1.3777039716E-024	[ -7.61874177e-13   8.92889528e-13]	499
+sphere	neumann_topology	inertia_weight	(0.01, 0.01)	1.58159703057E-020	[  5.29403937e-11   1.14075786e-10]	491
+sphere	ring_topology	inertia_weight	(0.01, 0.01)	1.15673000798E-017	[  2.73790008e-09  -2.01772229e-09]	499
+sphere	full_topology	constriction_factor	(2.05, 2.05)	1.6429065284E-016	[ -1.25903469e-08  -2.40287722e-09]	485
+sphere	full_topology	constriction_factor	(2, 1)	3.10631093972E-014	[  8.64465475e-08  -1.53590702e-07]	318
+sphere	neumann_topology	constriction_factor	(2.05, 2.05)	7.89953222405E-013	[  8.25565926e-07   3.29232629e-07]	243
+sphere	neumann_topology	constriction_factor	(2, 1)	1.20174681713E-012	[ -8.09893716e-07  -7.38795632e-07]	499
+sphere	full_topology	constriction_factor	(1, 2)	1.27344373083E-011	[ -1.97878459e-06  -2.96965467e-06]	456
+sphere	neumann_topology	constriction_factor	(1, 2)	5.84588913113E-010	[  2.39405023e-05  -3.38249388e-06]	480
+sphere	full_topology	inertia_weight	(2, 1)	2.09589679966E-009	[ -1.86417044e-05   4.18136779e-05]	321
+sphere	neumann_topology	inertia_weight	(2, 1)	0.000000006	[  7.69165552e-05   1.09492973e-05]	486
+sphere	full_topology	inertia_weight	(1, 2)	0.000000021	[ -1.25810413e-04   7.21940158e-05]	476
+sphere	ring_topology	inertia_weight	(1, 2)	2.53566272459E-007	[-0.00040188 -0.00030341]	477
+sphere	ring_topology	inertia_weight	(2, 1)	3.70734068203E-007	[-0.00053171  0.00029668]	330
+sphere	neumann_topology	inertia_weight	(1, 2)	5.28052301073E-007	[ 0.00013144 -0.00071469]	439
+sphere	ring_topology	constriction_factor	(1, 2)	1.22633828539E-006	[ 0.00108968 -0.00019731]	499
+sphere	ring_topology	constriction_factor	(2.05, 2.05)	5.25022881223E-006	[-0.00013227 -0.00228752]	499
+sphere	ring_topology	constriction_factor	(2, 1)	0.000008895	[-0.0006015  -0.00292116]	315
+sphere	full_topology	inertia_weight	(2.05, 2.05)	1.69716900095E-005	[ 0.00081785  0.00403767]	369
+sphere	full_topology	main	(0.01, 0.01)	3.02441109269E-005	[-0.00532654  0.00136826]	407
+sphere	neumann_topology	inertia_weight	(2.05, 2.05)	6.19674380953E-005	[ 0.00260945 -0.00742686]	409
+sphere	ring_topology	main	(0.01, 0.01)	0.0004078528	[ 0.00197342  0.02009872]	429
+sphere	ring_topology	inertia_weight	(2.05, 2.05)	0.0005450407	[ 0.02293758  0.00434834]	423
+sphere	neumann_topology	main	(2, 1)	0.0006454563	[ 0.00056475 -0.02539955]	282
+sphere	neumann_topology	main	(0.01, 0.01)	0.0018435023	[ 0.00091465 -0.04292628]	415
+sphere	ring_topology	main	(2.05, 2.05)	0.003602229	[-0.02816703 -0.05299856]	298
+sphere	full_topology	main	(1, 2)	0.0067837925	[ 0.0328299  0.075538 ]	475
+sphere	full_topology	main	(2, 1)	0.007467569	[-0.07591844  0.04127905]	40
+sphere	full_topology	main	(2.05, 2.05)	0.0177478382	[-0.06341258 -0.11716093]	1
+sphere	ring_topology	main	(1, 2)	0.041838499	[ 0.08843081  0.18444102]	161
+sphere	ring_topology	main	(2, 1)	0.0425065933	[ 0.14661654 -0.1449489 ]	50
+sphere	neumann_topology	main	(1, 2)	0.0489794479	[ 0.15844411 -0.15451508]	72
+sphere	neumann_topology	main	(2.05, 2.05)	0.1622575236	[ 0.37168534 -0.155266  ]	6
+sphere	neumann_topology	constriction_factor	(0.01, 0.01)	0.1944890507	[-0.34323753  0.2769062 ]	64
+sphere	ring_topology	constriction_factor	(0.01, 0.01)	0.6646129019	[ 0.43279219 -0.69087178]	13
+sphere	full_topology	constriction_factor	(0.01, 0.01)	0.7409520378	[-0.66812035 -0.54274049]	49
+						
+rosenbrok	full_topology	inertia_weight	(0.01, 0.01)	1.9157360126E-023	[ 1.  1.]	497
+rosenbrok	neumann_topology	inertia_weight	(0.01, 0.01)	2.66652081437E-016	[ 1.00000001  1.00000003]	479
+rosenbrok	full_topology	inertia_weight	(2, 1)	2.1637068698E-008	[ 1.0001203   1.00023215]	253
+rosenbrok	neumann_topology	inertia_weight	(2, 1)	2.57185263495E-008	[ 0.99985143  0.99970892]	445
+rosenbrok	full_topology	inertia_weight	(1, 2)	5.9418325879E-008	[ 1.00020357  1.00042059]	496
+rosenbrok	full_topology	main	(0.01, 0.01)	6.53663793575E-007	[ 1.00064909  1.0013468 ]	473
+rosenbrok	ring_topology	inertia_weight	(2, 1)	6.77307068275E-007	[ 0.99935361  0.9986567 ]	493
+rosenbrok	ring_topology	inertia_weight	(0.01, 0.01)	2.78177919088E-006	[ 1.00161281  1.00318573]	499
+rosenbrok	ring_topology	inertia_weight	(1, 2)	3.8501991353E-006	[ 1.00025786  1.00032126]	499
+rosenbrok	neumann_topology	constriction_factor	(1, 2)	5.89491695489E-006	[ 1.0024178   1.00486362]	48
+rosenbrok	neumann_topology	inertia_weight	(1, 2)	6.19083501914E-006	[ 0.99951752  0.99879117]	467
+rosenbrok	neumann_topology	constriction_factor	(2.05, 2.05)	7.25331980031E-006	[ 1.00049045  1.00124595]	395
+rosenbrok	ring_topology	constriction_factor	(2.05, 2.05)	8.95950716102E-006	[ 0.99746721  0.99478132]	499
+rosenbrok	neumann_topology	constriction_factor	(2, 1)	1.40886469883E-005	[ 1.00300634  1.00624645]	243
+rosenbrok	full_topology	constriction_factor	(2.05, 2.05)	9.38438854923E-005	[ 0.99031756  0.98075955]	395
+rosenbrok	full_topology	constriction_factor	(1, 2)	0.0001324777	[ 0.98851062  0.97708456]	77
+rosenbrok	ring_topology	main	(0.01, 0.01)	0.000182347	[ 1.00640626  1.01404229]	421
+rosenbrok	full_topology	inertia_weight	(2.05, 2.05)	0.0002150045	[ 0.99328881  0.98792635]	79
+rosenbrok	neumann_topology	main	(2, 1)	0.0002699298	[ 0.98495812  0.97080334]	293
+rosenbrok	full_topology	constriction_factor	(2, 1)	0.0003447801	[ 0.98148856  0.96317465]	456
+rosenbrok	ring_topology	constriction_factor	(2, 1)	0.0004676471	[ 0.98747875  0.97335114]	82
+rosenbrok	ring_topology	constriction_factor	(1, 2)	0.000512202	[ 0.97738365  0.95536263]	362
+rosenbrok	ring_topology	main	(2, 1)	0.0006087674	[ 1.00489257  1.01222739]	221
+rosenbrok	neumann_topology	inertia_weight	(2.05, 2.05)	0.0006775876	[ 1.0021466   1.00170362]	263
+rosenbrok	neumann_topology	main	(0.01, 0.01)	0.0007220501	[ 1.00898048  1.01550903]	312
+rosenbrok	full_topology	main	(2, 1)	0.0009435444	[ 1.00247097  1.00800981]	105
+rosenbrok	ring_topology	main	(1, 2)	0.002073929	[ 0.97032035  0.94497564]	434
+rosenbrok	ring_topology	inertia_weight	(2.05, 2.05)	0.0023243968	[ 1.01626018  1.02824604]	362
+rosenbrok	neumann_topology	main	(1, 2)	0.004290812	[ 1.02378817  1.04203899]	427
+rosenbrok	full_topology	main	(1, 2)	0.0085482567	[ 0.98097256  0.95325939]	170
+rosenbrok	ring_topology	constriction_factor	(0.01, 0.01)	0.0087255289	[ 0.95390618  0.91806158]	72
+rosenbrok	full_topology	main	(2.05, 2.05)	0.0139217201	[ 0.99108365  0.9704815 ]	15
+rosenbrok	ring_topology	main	(2.05, 2.05)	0.0253602111	[ 1.01066637  1.00555739]	122
+rosenbrok	neumann_topology	main	(2.05, 2.05)	0.0434255459	[ 1.0205962   1.06235336]	66
+rosenbrok	full_topology	constriction_factor	(0.01, 0.01)	0.0512747299	[ 0.78341306  0.60712934]	6
+rosenbrok	neumann_topology	constriction_factor	(0.01, 0.01)	0.0931198493	[ 0.86264968  0.71691474]	15
+						
+rastrigin	full_topology	inertia_weight	(2, 1)	6.57541932014E-008	[  9.88877207e-06  -1.52855403e-05]	498
+rastrigin	full_topology	inertia_weight	(0.01, 0.01)	9.08897881402E-008	[ -2.00477271e-05  -7.49805074e-06]	484
+rastrigin	full_topology	inertia_weight	(1, 2)	1.73412960436E-007	[ -3.53689883e-06  -2.93527250e-05]	374
+rastrigin	neumann_topology	inertia_weight	(1, 2)	3.3911285513E-007	[ -3.74799371e-05  -1.74516666e-05]	343
+rastrigin	ring_topology	inertia_weight	(2, 1)	1.26053917171E-006	[  1.11528270e-05  -7.89264976e-05]	382
+rastrigin	neumann_topology	inertia_weight	(2, 1)	1.56884691194E-006	[  8.88427425e-05   3.84410836e-06]	456
+rastrigin	ring_topology	inertia_weight	(1, 2)	8.05549681004E-006	[  1.98760905e-04  -3.31365294e-05]	323
+rastrigin	neumann_topology	inertia_weight	(0.01, 0.01)	2.69593580384E-005	[ 0.00028028  0.00023945]	499
+rastrigin	full_topology	main	(0.01, 0.01)	3.32635152915E-005	[-0.00037998  0.00015259]	422
+rastrigin	full_topology	constriction_factor	(1, 2)	7.28554468736E-005	[ 0.00038531 -0.00046772]	466
+rastrigin	neumann_topology	main	(0.01, 0.01)	0.0001215654	[-0.0006785   0.00039037]	491
+rastrigin	ring_topology	inertia_weight	(2.05, 2.05)	0.0001882418	[-0.00054831  0.0008051 ]	453
+rastrigin	neumann_topology	constriction_factor	(1, 2)	0.0002521272	[ -2.85503838e-05   1.12696194e-03]	126
+rastrigin	neumann_topology	inertia_weight	(2.05, 2.05)	0.0003148399	[-0.00047909 -0.00116509]	436
+rastrigin	full_topology	inertia_weight	(2.05, 2.05)	0.000349133	[ 0.00130576 -0.00023414]	459
+rastrigin	ring_topology	main	(0.01, 0.01)	0.000499068	[ 0.00051623 -0.0014997 ]	300
+rastrigin	full_topology	constriction_factor	(2.05, 2.05)	0.0008108382	[-0.00175626 -0.00100132]	78
+rastrigin	ring_topology	inertia_weight	(0.01, 0.01)	0.0009036626	[ 0.00139323  0.00161675]	474
+rastrigin	neumann_topology	main	(1, 2)	0.0010837443	[-0.00208683  0.00105254]	429
+rastrigin	full_topology	main	(1, 2)	0.003023745	[-0.00135461  0.00366154]	388
+rastrigin	ring_topology	constriction_factor	(1, 2)	0.0034710336	[ 0.0023753   0.00344301]	30
+rastrigin	neumann_topology	main	(2, 1)	0.0045237066	[-0.00115637 -0.00463316]	81
+rastrigin	neumann_topology	constriction_factor	(2.05, 2.05)	0.0051592179	[-0.0047912   0.00174681]	189
+rastrigin	ring_topology	main	(2, 1)	0.011160333	[-0.00504752  0.00554812]	155
+rastrigin	full_topology	constriction_factor	(2, 1)	0.0130475196	[-0.00747047  0.00315736]	27
+rastrigin	full_topology	main	(2, 1)	0.0239754701	[-0.01071888  0.00244907]	387
+rastrigin	ring_topology	main	(2.05, 2.05)	0.042666897	[-0.01420778  0.00365192]	35
+rastrigin	ring_topology	main	(1, 2)	0.0479492552	[ 0.00519132 -0.01465923]	239
+rastrigin	neumann_topology	main	(2.05, 2.05)	0.0560126542	[-0.01577697  0.00579886]	497
+rastrigin	ring_topology	constriction_factor	(2, 1)	0.0628421838	[-0.01324093 -0.01189964]	3
+rastrigin	neumann_topology	constriction_factor	(2, 1)	0.0913567609	[-0.01964047  0.00867427]	170
+rastrigin	full_topology	main	(2.05, 2.05)	0.1083684657	[ 0.01379937 -0.01887711]	432
+rastrigin	ring_topology	constriction_factor	(0.01, 0.01)	0.1324768122	[-0.01916276  0.01735739]	11
+rastrigin	neumann_topology	constriction_factor	(0.01, 0.01)	0.3180574278	[ 0.03954535 -0.00688023]	25
+rastrigin	full_topology	constriction_factor	(0.01, 0.01)	0.3891360017	[-0.01776     0.04068546]	19
+rastrigin	ring_topology	constriction_factor	(2.05, 2.05)	0.7029624377	[-0.03894886 -0.04524918]	15
