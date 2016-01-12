@@ -3,7 +3,7 @@ from functions import *
 from pso import run_pso, run_experiment
 from mosquitos import run_mosquitos
 
-def run_test_set(test_pso=True, writer=None):
+def run_test_set(test_pso=True, test_mosquito=True, writer=None):
 
     if writer is not None:
         writer = csv.writer(writer, delimiter='\t', quoting=csv.QUOTE_ALL)
@@ -16,14 +16,15 @@ def run_test_set(test_pso=True, writer=None):
                  (rastrigin, (-5.12, 5.12), 2),
                  ]
 
-    if test_pso:
-        for fun in functions:
-            print "Run simulation for function ", fun[0].__name__
+    for fun in functions:
+        print "Run simulation for function ", fun[0].__name__
 
+        if test_mosquito:
             if writer is not None:
-                writer.writerow(("Function", "", "Num swarms", "Starvation kt", "Score", "Error", "Position", "Iter"))
+                writer.writerow(("Function", "Initial num swarms", "Final num swarms", "Starvation kt", "Score", "Error", "Position", "Iter"))
             run_mosquitos(fun, writer=writer)
 
+        if test_pso:
             if writer is not None:
                 writer.writerow(("Function", "Topology", "PSO", "Phi", "Score", "Error", "Position", "Iter"))
             run_pso(fun, writer=writer)

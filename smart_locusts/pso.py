@@ -116,8 +116,9 @@ def run_pso(fun, num_attempts=1, writer=None, dbg=False):
                     print
 
     if writer is not None:
-
-        rows = sorted(rows, cmp=lambda x, y: float(x[4]) < float(y[4]))
+    
+        rows = sorted(rows, cmp=lambda x, y: -1 if float(x[4]) < float(y[4]) else 1)
         for row in rows:
             writer.writerow(row)
         writer.writerow(())
+        

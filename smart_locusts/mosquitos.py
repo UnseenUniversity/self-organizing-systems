@@ -1,6 +1,5 @@
 
 import numpy as np
-from pso import run_experiment
 from random import random as rnd
 from math import pi, cos, sin
 from sklearn.cluster import k_means
@@ -56,9 +55,19 @@ def mosquito_init(sample_space, dim_count, num_particles, num_swarms=5):
     low_bound, high_bound = sample_space
 
     mosquitos = np.random.uniform(low_bound, high_bound, size=(num_particles, dim_count))
-    leaders, swarms = kmeans(mosquitos, num_centroids=num_swarms)
-    # leaders, swarm_idx = k_means(mosquitos, num_swarms)
 
+    #leaders, swarms = kmeans(mosquitos, num_centroids=num_swarms)
+    #print swarms
+    #print
+
+    res = k_means(mosquitos, num_swarms)
+    swarm_idx = res[1]
+    swarms = [[] for _ in xrange(num_swarms)]
+    for idx in xrange(len(swarm_idx)):
+        swarms[swarm_idx[idx]].append(mosquitos[idx])
+    
+    #print swarms
+    #exit(0)
     starvation = [0.0 for _ in xrange(num_swarms)]
     return [(np.inf, None) for _ in xrange(num_swarms)], swarms, starvation, num_particles
 
@@ -279,6 +288,20 @@ def mosquito_update(config, fun, starvation_kt=1.0):
     return ans, config
 
 
+def run_experiment(fun, init, update, max_iter=500, num_particles=20):
+
+    fitness, _, dim_count = fun
+    config   = init(num_particles)
+    best_ans = (np.inf, np.zeros(dim_count), -1)
+
+    for step in xrange(max_iter):
+        ans, config = update(config, fun)
+        if ans[0] < best_ans[0]:
+            best_ans = (ans[0], ans[1], step, len(config[0]))
+
+    return best_ans
+    
+    
 def run_mosquitos(fun, num_attempts=10, writer=None, dbg=True):
 
     fitness, sample_space, dim_count = fun
@@ -296,14 +319,14 @@ def run_mosquitos(fun, num_attempts=10, writer=None, dbg=True):
             for attempt in xrange(num_attempts):
                 fitness.__count__ = 0
                 update = lambda c, f: mosquito_update(c, f, starvation_kt=kt)
-                best, pos, step = run_experiment(fun, init, update)
+                best, pos, step, final_cluster_num = run_experiment(fun, init, update)
                 if best < exp_best[0] or \
                   (best == exp_best[0] and exp_best[3] > fitness.__count__):
-                    exp_best = best, pos, step, fitness.__count__
+                    exp_best = best, pos, step, fitness.__count__, final_cluster_num
 
             row = (fitness.__name__,
-                   "",
                    str(num_clusters),
+                   str(exp_best[4]),
                    str(kt),
                    str(exp_best[0]),
                    str(np.abs(exp_best[0])),
@@ -313,11 +336,12 @@ def run_mosquitos(fun, num_attempts=10, writer=None, dbg=True):
 
             rows.append(row)
 
+        
     if writer is not None:
-        rows = sorted(rows, cmp=lambda x, y: float(x[4]) < float(y[4]))
+    
+        rows = sorted(rows, cmp=lambda x, y: -1 if float(x[4]) < float(y[4]) else 1)        
         for row in rows:
             writer.writerow(row)
         writer.writerow(())
-
 
     return exp_best
