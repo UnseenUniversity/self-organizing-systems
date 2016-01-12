@@ -70,11 +70,9 @@ def run_experiment(fun, init, update, max_iter=500, num_particles=20):
     return best_ans
 
 
-def run_pso(fun, num_attempts=1, writer=None, dbg=True):
+def run_pso(fun, num_attempts=1, writer=None, dbg=False):
 
     fitness, sample_space, dim_count = fun
-    print "Run simulation for function ", fitness.__name__
-
     topology   = [full_topology, ring_topology, neumann_topology]
     fi_choices = [(0.01, 0.01), (1, 2), (2.05, 2.05), (2, 1)]
     pso_type   = [pso_vanilla, inertia_weight, constriction_factor]
@@ -91,11 +89,13 @@ def run_pso(fun, num_attempts=1, writer=None, dbg=True):
                 vel_update = lambda vel, pos, lbest, gbest : pso(fi[0], fi[1], vel, pos, lbest, gbest)
                 update = lambda config, fun: pso_update(config, fun, vel_update)
 
-                exp_best = (np.inf, np.zeros(dim_count), -1)
+                exp_best = (np.inf, np.zeros(dim_count), -1, np.inf)
                 for attempt in xrange(num_attempts):
+                    fitness.__count__ = 0
                     best, pos, step = run_experiment(fun, init, update)
-                    if best < exp_best[0]:
-                        exp_best = best, pos, step
+                    if best < exp_best[0] or \
+                       (best == exp_best[0] and exp_best[3] > fitness.__count__):
+                        exp_best = best, pos, step, fitness.__count__
 
                 row = (fitness.__name__,
                        top.__name__,
@@ -104,7 +104,8 @@ def run_pso(fun, num_attempts=1, writer=None, dbg=True):
                        str(exp_best[0]),
                        str(np.abs(exp_best[0])),
                        str(exp_best[1]),
-                       str(exp_best[2]))
+                       str(exp_best[2]),
+                       str(exp_best[3]))
 
                 if writer is not None:
                     rows.append(row)

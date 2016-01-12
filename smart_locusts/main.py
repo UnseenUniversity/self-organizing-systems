@@ -7,9 +7,10 @@ def run_test_set(test_pso=True, writer=None):
 
     if writer is not None:
         writer = csv.writer(writer, delimiter='\t', quoting=csv.QUOTE_ALL)
-        writer.writerow(("Function", "Topology", "PSO", "Phi", "Score", "Error", "Position", "Iter"))
 
-    functions = [(griewank, (-600, 600), 2),
+
+    functions = [
+                 (griewank, (-600, 600), 2),
                  (sphere, (-100, 100), 2),
                  (rosenbrok, (-10, 10), 2),
                  (rastrigin, (-5.12, 5.12), 2),
@@ -17,9 +18,15 @@ def run_test_set(test_pso=True, writer=None):
 
     if test_pso:
         for fun in functions:
-            run_mosquitos(fun, writer=writer)
-            # run_pso(fun, writer=writer)
+            print "Run simulation for function ", fun[0].__name__
 
+            if writer is not None:
+                writer.writerow(("Function", "", "Num swarms", "Starvation kt", "Score", "Error", "Position", "Iter"))
+            run_mosquitos(fun, writer=writer)
+
+            if writer is not None:
+                writer.writerow(("Function", "Topology", "PSO", "Phi", "Score", "Error", "Position", "Iter"))
+            run_pso(fun, writer=writer)
 
 
 def solve(save_result=True):
