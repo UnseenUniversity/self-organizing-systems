@@ -27,8 +27,8 @@ def inertia_weight(fi1, fi2, vel, pos, best_pos, neigh_best, weight=0.9):
 # constriction factor 0.729
 def constriction_factor(fi1, fi2, vel, pos, best_pos, neigh_best, K=0.729):
 
-    phi = fi1 + fi2
-    K   = 2 / np.abs(2 - phi - np.sqrt(phi ** 2 - 4 * phi))
+    # phi = fi1 + fi2
+    # K   = 2 / np.abs(2 - phi - np.sqrt(phi ** 2 - 4 * phi))
 
     new_vel = []
     for idx in xrange(len(vel)):

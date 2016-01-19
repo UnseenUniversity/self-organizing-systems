@@ -72,7 +72,7 @@ def mosquito_init(sample_space, dim_count, num_particles, num_swarms=5):
     return [(np.inf, None) for _ in xrange(num_swarms)], swarms, starvation, num_particles
 
 
-def random_sample(px, py, r, uniform=True):
+def random_sample(px, py, r, uniform=False):
 
     a = rnd()
     b = rnd()
@@ -88,7 +88,7 @@ def random_sample(px, py, r, uniform=True):
 
 def random_test(num_points=100):
 
-    samples = [random_sample(0, 0, 1) for _ in xrange(num_points)]
+    samples = [random_sample(0, 0, 3) for _ in xrange(num_points)]
 
     x = [sample[0] for sample in samples]
     y = [sample[1] for sample in samples]
@@ -314,7 +314,7 @@ def run_mosquitos(fun, num_attempts=10, writer=None, dbg=True):
 
         for kt in {0.2, 0.5, 1.0, 2.0, 3.0}:
 
-            exp_best = (np.inf, np.zeros(dim_count), -1, np.inf)
+            exp_best = (np.inf, np.zeros(dim_count), -1, np.inf, -1)
 
             for attempt in xrange(num_attempts):
                 fitness.__count__ = 0
@@ -336,7 +336,6 @@ def run_mosquitos(fun, num_attempts=10, writer=None, dbg=True):
 
             rows.append(row)
 
-        
     if writer is not None:
     
         rows = sorted(rows, cmp=lambda x, y: -1 if float(x[4]) < float(y[4]) else 1)        

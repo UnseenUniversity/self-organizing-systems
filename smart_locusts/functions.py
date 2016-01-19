@@ -27,6 +27,9 @@ def griewank(x):
     griewank.__count__ += 1
     return 1 / 4000 * sum(x ** 2) - np.prod(np.cos(x / np.sqrt(np.arange(len(x))[1:]))) + 1
 
+
+
+
 sphere.__count__ = 0
 rosenbrok.__count__ = 0
 rastrigin.__count__ = 0
