@@ -66,8 +66,8 @@ def mosquito_init(sample_space, dim_count, num_particles, num_swarms=5):
     for idx in xrange(len(swarm_idx)):
         swarms[swarm_idx[idx]].append(mosquitos[idx])
     
-    #print swarms
-    #exit(0)
+    # print swarms
+    # exit(0)
     starvation = [0.0 for _ in xrange(num_swarms)]
     return [(np.inf, None) for _ in xrange(num_swarms)], swarms, starvation, num_particles
 
